@@ -5,11 +5,19 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthenticationService {
-    constructor(private http: Http, private baseUrl: string) { }
+    private baseUrl: string;
+    private headers: Headers;
+
+    constructor(private http: Http) { 
+        this.baseUrl = 'https://centstrailapi.azurewebsites.net';
+        this.headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+    }
 
     public login(email: string, password: string): Observable<any> {
-        return this.http.post(`${this.baseUrl}/Token`,
-            JSON.stringify({ userName: email, password: password, grant_type: 'password' }))
+        let body = "userName=" + email + "&password=" + password + "&grant_type=password";
+        let options = new RequestOptions({ headers: this.headers }); 
+
+        return this.http.post(`${this.baseUrl}/Token`, body, options)
             .map((response: Response) => {
                 let userToken = response.json();
 
