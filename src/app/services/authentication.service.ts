@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { ConfigService } from "./config.service";
 
 @Injectable()
 export class AuthenticationService {
-    private baseUrl: string;
     private headers: Headers;
 
-    constructor(private http: Http) { 
-        this.baseUrl = 'https://centstrailapi.azurewebsites.net';
+    constructor(private http: Http,
+                private configService: ConfigService) { 
         this.headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
     }
 
@@ -17,7 +17,7 @@ export class AuthenticationService {
         let body = "userName=" + email + "&password=" + password + "&grant_type=password";
         let options = new RequestOptions({ headers: this.headers }); 
 
-        return this.http.post(`${this.baseUrl}/Token`, body, options)
+        return this.http.post(`${this.configService.get('baseUrl')}/Token`, body, options)
             .map((response: Response) => {
                 let userToken = response.json();
 
