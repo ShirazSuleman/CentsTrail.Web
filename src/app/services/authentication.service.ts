@@ -37,7 +37,7 @@ export class AuthenticationService {
         let currentUserToken = JSON.parse(localStorage.getItem('currentUserToken'));
 
         if (currentUserToken && currentUserToken.access_token) {
-            let headers = new Headers({ 'Authorization': 'Bearer ' + currentUserToken.access_token });
+            let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + currentUserToken.access_token });
             return new RequestOptions({ 'headers': headers });
         }
     }
