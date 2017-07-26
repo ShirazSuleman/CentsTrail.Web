@@ -17,6 +17,7 @@ import { HomeComponent } from "./components/home/home.component";
 import { ConfigService } from "./services/config.service";
 import { DataTableModule } from "angular-2-data-table";
 import { TransactionService } from "./services/transaction.service";
+import { PeriodService } from "./services/period.service";
 
 @NgModule({
   imports: [BrowserModule, FormsModule, HttpModule, ROUTING, DataTableModule, CommonModule ],
@@ -37,6 +38,11 @@ import { TransactionService } from "./services/transaction.service";
     {
       provide: TransactionService,
       useFactory: (http: Http, configService: ConfigService, authenticationService: AuthenticationService) => new TransactionService(http, configService, authenticationService),
+      deps: [Http, ConfigService, AuthenticationService]
+    },
+    {
+      provide: PeriodService,
+      useFactory: (http: Http, configService: ConfigService, authenticationService: AuthenticationService) => new PeriodService(http, configService, authenticationService),
       deps: [Http, ConfigService, AuthenticationService]
     },
     AlertService

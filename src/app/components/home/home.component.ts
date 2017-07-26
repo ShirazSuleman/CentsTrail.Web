@@ -3,6 +3,10 @@ import { UserToken } from "../../models/usertoken";
 import { DataTableResource } from 'angular-2-data-table';
 import { TransactionService } from "../../services/transaction.service";
 import { Observable } from "rxjs/Observable";
+import { Transaction } from "../../models/transaction";
+import { AuthenticationService } from "../../services/authentication.service";
+import { PeriodService } from "../../services/period.service";
+import { Period } from "../../models/period";
 
 
 @Component({
@@ -11,18 +15,27 @@ import { Observable } from "rxjs/Observable";
 })
 
 export class HomeComponent {
-    currentUserToken: UserToken;
-    transactions: Observable<any>;
-    items: any[] = [];
+    selectedPeriod: Period = new Period();
+    periods: Period[];
+    transactions: Transaction[];
+    items: Transaction[] = [];
     itemCount: number = 0;
-    itemResource: DataTableResource<any>;
+    itemResource: DataTableResource<Transaction>;
 
-    constructor(private transactionService: TransactionService) {
-        this.currentUserToken = JSON.parse(localStorage.getItem('currentUserToken'));
+    constructor(
+        private transactionService: TransactionService,
+        private periodService: PeriodService,
+        private authenticationService: AuthenticationService) {
+        this.periodService.getPeriods().subscribe(
+            data => {
+                this.periods = data;
+                this.selectedPeriod = this.periods.sort((a, b) => a.id > b.id ? 1 : b.id > a.id ? -1 : 0)[0];
+                this.reloadItems({});
+            });
     }
 
     reloadItems(params: any) {
-        this.transactionService.getTransactions().subscribe(
+        this.transactionService.getTransactions({ periodId: this.selectedPeriod.id }).subscribe(
             data => {
                 this.transactions = data;
                 this.itemResource = new DataTableResource(this.transactions);
@@ -32,14 +45,13 @@ export class HomeComponent {
     }
 
     // special properties:
-
     rowClick(rowEvent: any) {
-        console.log('Clicked: ' + rowEvent.row.item.name);
+        console.log('Clicked: ' + rowEvent.row.item.description);
     }
 
     rowDoubleClick(rowEvent: any) {
-        alert('Double clicked: ' + rowEvent.row.item.name);
+        alert('Double clicked: ' + rowEvent.row.item.description);
     }
 
-    rowTooltip(item: any) { return item.jobTitle; }
+    rowTooltip(item: any) { return item.description; }
 }

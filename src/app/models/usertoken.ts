@@ -1,9 +1,11 @@
 export class UserToken {
-    accessToken: string;
-    tokenType: string;
-    expiresIn: number;
-    refreshToken: string;
-    userName: string;
-    issuedDate: Date;
-    expiryDate: Date;
+    constructor(
+        public accessToken: string,
+        public tokenType: string,
+        public expiresIn: number,
+        public refreshToken: string,
+        public userName: string,
+        public issuedDate: Date,
+        public expiryDate: Date) {
+    }
 }

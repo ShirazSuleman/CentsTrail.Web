@@ -4,10 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { ConfigService } from "./config.service";
 import { AuthenticationService } from "./authentication.service";
-import { Transaction } from "../models/transaction";
+import { Period } from "../models/period";
 
 @Injectable()
-export class TransactionService {
+export class PeriodService {
     private headers: Headers;
 
     constructor(private http: Http,
@@ -15,9 +15,9 @@ export class TransactionService {
         private authenticationService: AuthenticationService) {
     }
 
-    getTransactions(request: object): Observable<Transaction[]> {
-        return this.http.post(`${this.configService.get('baseUrl')}/Transactions/Search`,
-            JSON.stringify(request), this.authenticationService.jwt()).map((response: Response) => {
+    getPeriods(): Observable<Period[]> {
+        return this.http.get(`${this.configService.get('baseUrl')}/Periods`,
+            this.authenticationService.jwt()).map((response: Response) => {
                 return response.json();
             });
     }
