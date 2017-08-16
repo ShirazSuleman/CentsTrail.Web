@@ -2,8 +2,8 @@ export class Transaction {
     id: number;
     description: string;
     amount: number;
-    accountId: number;
-    categoryId: number;
-    periodId: number;
+    account: string;
+    category: string;
+    period: string;
     transactionDate: Date;
 }

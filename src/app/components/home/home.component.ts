@@ -15,6 +15,7 @@ import { Period } from "../../models/period";
 
 export class HomeComponent {
     selectedPeriod: Period = new Period();
+    selectedPeriodIndex: number = 0;
     periods: Period[];
     transactions: Transaction[];
     items: Transaction[] = [];
@@ -41,6 +42,18 @@ export class HomeComponent {
                 this.itemResource.count().then(count => this.itemCount = count);
                 this.itemResource.query(params).then(items => this.items = items);
             });
+    }
+
+    nextPeriod() {
+        console.log(this.selectedPeriodIndex);
+        this.selectedPeriod = this.periods[++this.selectedPeriodIndex];
+        this.reloadItems({});
+    }
+
+    previousPeriod() {
+        console.log(this.selectedPeriodIndex);        
+        this.selectedPeriod = this.periods[--this.selectedPeriodIndex];
+        this.reloadItems({});
     }
 
     // special properties:

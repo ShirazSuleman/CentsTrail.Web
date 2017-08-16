@@ -8,9 +8,9 @@
   </div>
   <div class="panel-body">
   <ul class="pager">
-    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>Previous</a></li>
+    <li class="previous"><a href="#" (click)="$event.preventDefault(); previousPeriod()"><span aria-hidden="true">&larr;</span>Previous</a></li>
     <li>{{selectedPeriod.name}}</li>
-    <li class="next"><a href="#">Next<span aria-hidden="true">&rarr;</span></a></li>
+    <li class="next"><a href="#" (click)="$event.preventDefault(); nextPeriod()">Next<span aria-hidden="true">&rarr;</span></a></li>
   </ul>
     <data-table id="transactions-grid"
         [items]="items"
@@ -41,16 +41,16 @@
             [sortable]="true">
         </data-table-column>
         <data-table-column
-            property="accountId"
-            header="AccountId">
+            property="account"
+            header="Account">
         </data-table-column>
         <data-table-column
-            property="categoryId"
-            header="CategoryId">
+            property="category"
+            header="Category">
         </data-table-column>
         <data-table-column
-            property="periodId"
-            header="PeriodId">
+            property="period"
+            header="Period">
         </data-table-column>
     </data-table>
       </div>
