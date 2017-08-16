@@ -15,7 +15,7 @@ export class TransactionService {
         private authenticationService: AuthenticationService) {
     }
 
-    getTransactions(request: object): Observable<Transaction[]> {
+    getTransactions(request: any): Observable<Transaction[]> {
         return this.http.post(`${this.configService.get('baseUrl')}/Transactions/Search`,
             JSON.stringify(request), this.authenticationService.jwt()).map((response: Response) => {
                 return response.json();

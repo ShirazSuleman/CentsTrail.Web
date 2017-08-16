@@ -8,7 +8,6 @@ import { AuthenticationService } from "../../services/authentication.service";
 import { PeriodService } from "../../services/period.service";
 import { Period } from "../../models/period";
 
-
 @Component({
     moduleId: module.id,
     templateUrl: 'home.component.html'
